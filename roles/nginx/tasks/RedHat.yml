@@ -1,0 +1,13 @@
+---
+- name: Install EPEL RedHat
+  yum:
+    name: epel-release
+    state: present
+  register: epel_installed
+
+- name: Install Nginx RedHat
+  yum:
+    name: nginx
+    state: present
+    update_cache: yes
+  when: epel_installed.rc == 0

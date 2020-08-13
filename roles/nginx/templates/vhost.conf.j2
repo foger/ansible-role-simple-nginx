@@ -1,0 +1,15 @@
+server {
+    listen {{ item.listen | default('80') }};
+
+{% if item.server_name is defined %}
+    server_name {{ item.server_name }};
+{% endif %}
+
+{% if item.root is defined %}
+    root {{ item.root }};
+{% endif %}
+
+{% if item.extra is defined %}
+    {{ item.extra|indent(4) }}
+{% endif %}
+}

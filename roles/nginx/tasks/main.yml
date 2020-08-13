@@ -1,0 +1,27 @@
+---
+- name: Include vars for different OS
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- include_tasks: RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- import_tasks: vhosts.yml
+
+- name: Template nginx.conf
+  template:
+    src: "{{ template_conf_file}}"
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: 
+    - reload_nginx
+
+- name: Checking Nginx is started and enabled...
+  service:
+    name: nginx
+    state: started
+    enabled: yes

@@ -1,0 +1,25 @@
+---
+# nginx.conf
+workers: "1024"
+gzip_state: "on"
+tcp_nopush: "on"
+tcp_nodelay: "on"
+
+# Virtual Hosts
+vhosts:
+  - listen: "8080"
+    server_name: "vhost1"
+    root: "/var/www/html/vhost1"
+    filename: "vhost1.conf"
+    extra: |
+      location / {
+        try_files $uri $uri/ =404;
+      }
+  - listen: "8081"
+    server_name: "vhost2"
+    root: "/var/www/html/vhost2"
+    filename: "vhost2.conf"
+    extra: |
+      location / {
+        try_files $uri $uri/ =404;
+      }

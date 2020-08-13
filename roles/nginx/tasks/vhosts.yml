@@ -1,0 +1,39 @@
+---
+- name: Create conf.d if doesn't exist
+  file:
+    path: /etc/nginx/conf.d
+    state: directory
+    mode: '0755'
+  notify:
+    - reload_nginx
+
+- name: Create vhosts directories if doesn't exist
+  file:
+    path: "{{ item.root | default('/var/www/html') }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ vhosts }}"
+
+- name: Template vhosts
+  template:
+    src: "{{ template_vhost_file }}"
+    dest: "/etc/nginx/conf.d/{{ item.filename }}"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items: 
+    - "{{ vhosts }}"
+  notify: 
+    - reload_nginx
+
+- name: Create demo HTML
+  template:
+    src: "{{ template_demo_html_file }}"
+    dest: "{{ item.root }}/index.html"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items: 
+    - "{{ vhosts }}"
+  when: create_demo_html | bool

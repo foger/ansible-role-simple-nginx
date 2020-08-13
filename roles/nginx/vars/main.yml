@@ -1,0 +1,5 @@
+---
+template_conf_file: templates/nginx.conf.j2
+template_vhost_file: templates/vhost.conf.j2
+template_demo_html_file: templates/index.html.j2
+create_demo_html: true
