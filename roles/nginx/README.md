@@ -64,3 +64,7 @@ vhosts:
   roles:
       - nginx
 ```
+
+```
+$ ansible-playbook playbook.yml
+```
