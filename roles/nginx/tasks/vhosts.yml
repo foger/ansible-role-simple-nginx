@@ -30,7 +30,7 @@
 - name: Create demo HTML
   template:
     src: "{{ template_demo_html_file }}"
-    dest: "{{ item.root }}/index.html"
+    dest: "{{ item.root | default('/var/www/html') }}/index.html"
     owner: root
     group: root
     mode: '0644'
